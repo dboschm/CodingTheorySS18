@@ -3,6 +3,7 @@ function [A,r] = generateA(q,k)
 % helpervectors
 h1 = 0:q-1;
 h2 = 0:q-1;
+% generate all combinations
 for i = 1:k-1
     h2 = combvec(h1,h2);
 end
@@ -31,16 +32,9 @@ for iMsg = 1:length(allMessages)
     % start from 2 because multiply with 1 points to the current
     % messageVector which we want to keep
     for iFactor = 1:q-1
-        % calculate dot product of 
-        calculatedIdx = dot(...
-            ... % modulo q
-            mod(...
-                ... % message multiplied with possible scale factor iFactor
-                allMessages(:,iMsg)*iFactor,...
-                q),...
-            powVector...
-        ... % Matlab uses 1 based indexes
-        )+1;
+        % calculate scalar product of powvector and scaled messagevector ==
+        % position in allMessages
+        calculatedIdx = powVector*(mod(allMessages(:,iMsg)*iFactor,q))+1;
         % exclude calculated Idx
         idx(calculatedIdx) = false;
     end
@@ -60,5 +54,5 @@ A = scalarProducts == 0;
 %% Some additional output
 % plot pixel image of A
 file = strcat('A_q',num2str(q),'_k',num2str(k),'.bmp');
-imwrite(A,file)
-imagesc(A)
+imwrite(A,file);
+imagesc(A);

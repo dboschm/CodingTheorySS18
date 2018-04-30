@@ -13,7 +13,7 @@ r(k,1) = 1;
 % helpvector needed to generate all possible combinations
 helpCombVector = 0:q-1;
 % Matrix which holds all combinations beneath the 111 line
-fillinMatrix = 0:q-1;
+fillInMatrix = 0:q-1;
 
 % set colOffset to 1 because the first column is already done
 colOffset = 1;
@@ -28,14 +28,14 @@ for i = k-1:-1:1
     % row Segment concerns all rows beneath i 
     rowSegment = i+1:k;
     % select 2D Range beneath the row and fillin the combination Matrix
-    r(rowSegment,colSegment) = fillinMatrix;
+    r(rowSegment,colSegment) = fillInMatrix;
     
     % set columnOffset for next iteration
     colOffset = colOffset + q^(k-i);
     % if not last iteration ...
     if (i ~= 1)
         % ... generate bigger combination Matrix
-        fillinMatrix = combvec(fillinMatrix,helpCombVector);
+        fillInMatrix = combvec(fillInMatrix,helpCombVector);
     end
 end
 %% Calculate matrix A

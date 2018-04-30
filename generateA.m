@@ -1,4 +1,5 @@
 function [A,r] = generateA(q,k)
+% the following code is deprecated
 %% generate all possible Messages
 % helpervectors
 h1 = 0:q-1;
@@ -46,7 +47,7 @@ r = allMessages(:,idx);
 
 %% Calculate matrix A
 % calculate all scalarproducts 
-scalarProducts = mod(r'*r,3);
+scalarProducts = mod(r'*r,q);
 
 % set A to true (1) where scalar product is 0
 A = scalarProducts == 0;

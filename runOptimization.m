@@ -1,29 +1,34 @@
-function x = runOptimization(q, k, b, useGurobi)
-
-% generate matrix A
-A = generateA(q,k);
-
+function [xVector,nMax] = runOptimization(A, b, useGurobi)
 rLength = size(A,1);
 
+% example XVector that you can call size(xVector)
+xVector = zeros(rLength,1);
 % negative ones to make a maximize optimization problem 
-fVector = -ones(rLength,1);
-bVector = b*ones(rLength,1);
-intConstraintIdx = 1:rLength;
+onesVector = -1*ones(size(xVector));
+% define integer Constraint Array. contains indexes of xVector which shall be Integers. 
+% In our case all x values have to be integer
+intConstraintOfX = 1:size(xVector);
+% bVector constain b rLength Times
+bVector = b*ones(size(xVector));
+% The lower bound of x is zero for all elements of x. We only want positive numbers
+lowerBoundOfX = zeros(size(xVector));
 
+% check if use Gurobi flag is set
 if nargin < 4
+    % if not use gurobi
     useGurobi = true;
 end
 
 if useGurobi
-    % minimizes fVector'*x seGurobi
-    
-    x = intlinprogGurobi(fVector,intConstraintIdx,A,bVector);
+    % minimizes [-1,-1,...,-1]'*x using Gurobi
+    xVector = intlinprogGurobi(onesVector,intConstraintOfX,A,bVector,[],[],lowerBoundOfX);
 else
     % useMatlabOptimization
-    % minimizes fVector'*x where A*x <= b
-    x = intlinprog(fVector,intConstraintIdx,A,bVector);
+    % minimizes fVector'*x where A*x <= b and x >= 0 and x is integer
+    xVector = intlinprog(onesVector,intConstraintOfX,A,bVector,[],[],lowerBoundOfX);
 end
-
+% the maximum n is 
+nMax = ones(size(xVector))'*xVector;
 end
 
 

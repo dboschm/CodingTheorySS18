@@ -1,4 +1,4 @@
-function [x] = runGurobi(A, b)
+function [x] = runGurobi(n, k, q, A, b)
 
 
 

@@ -1,4 +1,5 @@
-function [] = runGurobi(A, b)
+function [x] = runGurobi(A, b)
+
 
 
 

@@ -1,4 +1,4 @@
-function x = runOptimization(q, k, b)
+function x = runOptimization(q, k, b, useGurobi)
 
 % generate matrix A
 A = generateA(q,k);
@@ -9,7 +9,20 @@ rLength = size(A,1);
 fVector = -ones(rLength,1);
 bVector = b*ones(rLength,1);
 intConstraintIdx = 1:rLength;
-x = intlinprogGurobi(fVector,intConstraintIdx,A,bVector);
+
+if nargin < 4
+    useGurobi = true;
+end
+
+if useGurobi
+    % minimizes fVector'*x seGurobi
+    
+    x = intlinprogGurobi(fVector,intConstraintIdx,A,bVector);
+else
+    % useMatlabOptimization
+    % minimizes fVector'*x where A*x <= b
+    x = intlinprog(fVector,intConstraintIdx,A,bVector);
+end
 
 end
 

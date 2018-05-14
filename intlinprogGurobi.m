@@ -1,4 +1,4 @@
-function [x,fval,exitflag,output] = intlinprog(f,intcon,A,b,Aeq,beq,lb,ub,x0,options)
+function [x,fval,exitflag,output] = intlinprogGurobi(f,intcon,A,b,Aeq,beq,lb,ub,x0,options)
 % Copyright 2018, Gurobi Optimization, LLC
 %
 %INTLINPROG A mixed integer programming (MIP) example using the

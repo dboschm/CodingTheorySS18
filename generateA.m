@@ -4,7 +4,7 @@ function [A,r] = generateA(q,k)
 rlength = (q^k-1)/(q-1);
 
 % base value is 0
-r = zeros(k,rlength,'single');
+r = zeros(k,rlength);
 
 % set first vektor
 r(k,1) = 1;
@@ -42,11 +42,11 @@ end
 % calculate all scalarproducts mod q
 scalarProducts = mod(r'*r,q);
 
-% set A to true (1) where scalar product is 0
-A = (scalarProducts == 0);
+% set A to (1) where scalar product is 0
+A = double(scalarProducts == 0);
 
 %% Some additional output
 % plot pixel image of A
 %file = strcat('A_q',num2str(q),'_k',num2str(k),'.bmp');
 %imwrite(A,file);
-imagesc(A);
+%imagesc(A);

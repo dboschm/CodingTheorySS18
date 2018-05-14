@@ -1,5 +1,10 @@
-function [x] = runGurobi(n, k, q, A, b)
+function [x] = runGurobi(q, k, b)
 
+% generate matrix A
+[A, r] = generateA(q,k);
+
+% Configure Optimization Model
+model.A = 
 
 
 

@@ -16,7 +16,7 @@ lowerBoundOfX = zeros(size(xVector));
 % check if use Gurobi flag is set
 if nargin < 4
     % if not use gurobi
-    useGurobi = true;
+    useGurobi = false;
 end
 
 if useGurobi

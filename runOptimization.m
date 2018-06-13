@@ -14,18 +14,19 @@ bVector = b*ones(size(xVector));
 lowerBoundOfX = zeros(size(xVector));
 
 % check if use Gurobi flag is set
-if nargin < 4
+if nargin < 3
     % if not use gurobi
-    useGurobi = false;
+    useGurobi = true;
 end
 
+Options = optimoptions('intlinprog','MaxTime',10);
 if useGurobi
     % minimizes [-1,-1,...,-1]'*x using Gurobi
-    xVector = intlinprogGurobi(onesVector,intConstraintOfX,A,bVector,[],[],lowerBoundOfX);
+    xVector = intlinprogGurobi(onesVector,intConstraintOfX,A,bVector,[],[],lowerBoundOfX,[],[],Options);
 else
     % useMatlabOptimization
     % minimizes fVector'*x where A*x <= b and x >= 0 and x is integer
-    xVector = intlinprog(onesVector,intConstraintOfX,A,bVector,[],[],lowerBoundOfX);
+    xVector = intlinprog(onesVector,intConstraintOfX,A,bVector,[],[],lowerBoundOfX,[],[],Options);
 end
 % the maximum n is 
 nMax = ones(size(xVector))'*xVector;

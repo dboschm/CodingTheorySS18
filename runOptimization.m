@@ -19,7 +19,7 @@ if nargin < 3
     useGurobi = true;
 end
 
-Options = optimoptions('intlinprog','MaxTime',10);
+Options = optimoptions('intlinprog','MaxTime',15);
 if useGurobi
     % minimizes [-1,-1,...,-1]'*x using Gurobi
     xVector = intlinprogGurobi(onesVector,intConstraintOfX,A,bVector,[],[],lowerBoundOfX,[],[],Options);

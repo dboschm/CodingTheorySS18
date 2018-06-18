@@ -1,10 +1,10 @@
-function [xVector,nMax] = runOptimization(A, b, useGurobi)
+function [xVector,nMax] = runOptimization(A, b, c, useGurobi)
 rLength = size(A,1);
 
 % example XVector that you can call size(xVector)
 xVector = zeros(rLength,1);
 % negative ones to make a maximize optimization problem 
-onesVector = -1*ones(size(xVector));
+onesVector = -1*c
 % define integer Constraint Array. contains indexes of xVector which shall be Integers. 
 % In our case all x values have to be integer
 intConstraintOfX = 1:size(xVector);
@@ -14,7 +14,7 @@ bVector = b*ones(size(xVector));
 lowerBoundOfX = zeros(size(xVector));
 
 % check if use Gurobi flag is set
-if nargin < 3
+if nargin < 4
     % if not use gurobi
     useGurobi = true;
 end
@@ -29,7 +29,7 @@ else
     xVector = intlinprog(onesVector,intConstraintOfX,A,bVector,[],[],lowerBoundOfX,[],[],Options);
 end
 % the maximum n is 
-nMax = ones(size(xVector))'*xVector;
+nMax = c*xVector;
 end
 
 

@@ -8,7 +8,7 @@ for q = qArray
     % initialize k
     k = 1;
     % calculate until qkLimit is reached (e.g. 1000)
-    while((q^k-1)/(q-1) < qkLimit)
+     ((q^k-1)/(q-1) < qkLimit)
         % run for several bs
         for b = 1:bLimit
             % generate Matrix A

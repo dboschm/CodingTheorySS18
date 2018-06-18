@@ -4,7 +4,7 @@ rLength = size(A,1);
 % example XVector that you can call size(xVector)
 xVector = zeros(rLength,1);
 % negative ones to make a maximize optimization problem 
-onesVector = -1*c
+onesVector = -1*c;
 % define integer Constraint Array. contains indexes of xVector which shall be Integers. 
 % In our case all x values have to be integer
 intConstraintOfX = 1:size(xVector);

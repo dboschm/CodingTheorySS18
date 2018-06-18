@@ -1,4 +1,4 @@
-function [reducedA,c,e,newR] = reduceA2(A,r)
+function [reducedA,c,e,reducedrGroups,groupsIdxs] = reduceA2(A,r)
 q = max(max(r))+1;
 k = size(r,1);
 rCount = size(r,2);
@@ -18,7 +18,6 @@ iReduced = 1;
 mask = false(1,rCount);
 % iterate over all r vectors
 for ir = 1:rCount
-    ir 
     % skip vector if already masked
     if mask(ir)
         continue
@@ -30,7 +29,7 @@ for ir = 1:rCount
     
     % group mask idx
     grpIdx = false(1,rCount);
-    grpIdx(ir) = true;
+    grpIdx(ir) = 1;
     
     % iterate over group 
     while ~isequal(rv,r0) 
@@ -53,29 +52,27 @@ for ir = 1:rCount
         if sum(grpIdx) == rCount
             % reset grpindex so that there is only at position ir true
             grpIdx = false(1,rCount);
-            grpIdx(ir) = true;
+            grpIdx(ir) = 1;
             break
         end
         % set rv for next iteration
         rv = mod(e*rv,q);
     end
-    sum(grpIdx)
     
     % Add sum of Indexed Colums of A to reducedA Matrix
     reducedA(:,iReduced) = sum(A(:,grpIdx),2);
     % Add weight of consolidated Columns to c
     c(iReduced) = sum(grpIdx);
-    % 
-    newR(:,iReduced) = r0;    
+    % extract distict Groups 
+    reducedrGroups{iReduced} = r(:,grpIdx);
+    groupsIdxs{iReduced} = grpIdx;
     % increase Index in Reduced Matrix
     iReduced = iReduced +1;
 
-    
     % mask group
     mask = or(mask,grpIdx);
 end
 % reduce rows
 reducedA = unique(reducedA,'rows');
-imagesc(reducedA)
 end
 

@@ -4,7 +4,7 @@ rLength = size(A,1);
 % example XVector that you can call size(xVector)
 xVector = zeros(rLength,1);
 % negative ones to make a maximize optimization problem 
-onesVector = -1*c;
+negativeCVector = -1*c;
 % define integer Constraint Array. contains indexes of xVector which shall be Integers. 
 % In our case all x values have to be integer
 intConstraintOfX = 1:size(xVector);
@@ -22,11 +22,11 @@ end
 Options = optimoptions('intlinprog','MaxTime',15);
 if useGurobi
     % minimizes [-1,-1,...,-1]'*x using Gurobi
-    xVector = intlinprogGurobi(onesVector,intConstraintOfX,A,bVector,[],[],lowerBoundOfX,[],[],Options);
+    xVector = intlinprogGurobi(negativeCVector,intConstraintOfX,A,bVector,[],[],lowerBoundOfX,[],[],Options);
 else
     % useMatlabOptimization
     % minimizes fVector'*x where A*x <= b and x >= 0 and x is integer
-    xVector = intlinprog(onesVector,intConstraintOfX,A,bVector,[],[],lowerBoundOfX,[],[],Options);
+    xVector = intlinprog(negativeCVector,intConstraintOfX,A,bVector,[],[],lowerBoundOfX,[],[],Options);
 end
 % the maximum n is 
 nMax = c*xVector;

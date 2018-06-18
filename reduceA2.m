@@ -1,4 +1,4 @@
-function [reducedA,c,e] = reduceA2(A,r)
+function [reducedA,c,e,newR] = reduceA2(A,r)
 q = max(max(r))+1;
 k = size(r,1);
 rCount = size(r,2);
@@ -9,7 +9,7 @@ while(de == 0)
     e = randi([0, q-1], [k,k]);
     de = det(e);
 end
-e = [1,0,1;0,1,0;0,0,1];
+%e = [1,0,1;0,1,0;0,0,1];
 %e = [2,1,1;0,0,2;0,2,1];
 
 % reduced indexCounter
@@ -18,6 +18,7 @@ iReduced = 1;
 mask = false(1,rCount);
 % iterate over all r vectors
 for ir = 1:rCount
+    ir 
     % skip vector if already masked
     if mask(ir)
         continue
@@ -58,13 +59,17 @@ for ir = 1:rCount
         % set rv for next iteration
         rv = mod(e*rv,q);
     end
-    % Add sum of Indexed Colums of A to reducedA Matrix
+    sum(grpIdx)
     
+    % Add sum of Indexed Colums of A to reducedA Matrix
     reducedA(:,iReduced) = sum(A(:,grpIdx),2);
     % Add weight of consolidated Columns to c
     c(iReduced) = sum(grpIdx);
+    % 
+    newR(:,iReduced) = r0;    
     % increase Index in Reduced Matrix
     iReduced = iReduced +1;
+
     
     % mask group
     mask = or(mask,grpIdx);

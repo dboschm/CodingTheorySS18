@@ -1,4 +1,4 @@
-function [reducedA,c,e,reducedrGroups,groupsIdxs] = reduceA2(A,r)
+function [reducedA,c,e,groupsIdxs] = reduceA2(A,r)
 q = max(max(r))+1;
 k = size(r,1);
 rCount = size(r,2);
@@ -11,6 +11,7 @@ while(de == 0)
 end
 %e = [1,0,1;0,1,0;0,0,1];
 %e = [2,1,1;0,0,2;0,2,1];
+e = [5,6,2;6,6,4;14,6,1];
 
 % reduced indexCounter
 iReduced = 1;
@@ -64,7 +65,6 @@ for ir = 1:rCount
     % Add weight of consolidated Columns to c
     c(iReduced) = sum(grpIdx);
     % extract distict Groups 
-    reducedrGroups{iReduced} = r(:,grpIdx);
     groupsIdxs{iReduced} = grpIdx;
     % increase Index in Reduced Matrix
     iReduced = iReduced +1;

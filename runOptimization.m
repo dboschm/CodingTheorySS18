@@ -12,14 +12,14 @@ intConstraintOfX = 1:size(xVector);
 bVector = b*ones(size(xVector));
 % The lower bound of x is zero for all elements of x. We only want positive numbers
 lowerBoundOfX = zeros(size(xVector));
-
 % check if use Gurobi flag is set
 if nargin < 4
     % if not use gurobi
     useGurobi = true;
 end
 
-Options = optimoptions('intlinprog','MaxTime',15);
+Options = optimoptions('intlinprog','MaxTime',10);
+%Options = optimoptions('intlinprog');
 if useGurobi
     % minimizes [-1,-1,...,-1]'*x using Gurobi
     xVector = intlinprogGurobi(negativeCVector,intConstraintOfX,A,bVector,[],[],lowerBoundOfX,[],[],Options);

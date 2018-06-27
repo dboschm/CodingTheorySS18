@@ -1,5 +1,5 @@
 function [redA,c,e,groupsIdxs] = reduceA2(A,r)
-q = max(max(r))+1;
+q = max(max(r))+1
 k = size(r,1);
 rCount = size(r,2);
 % florians code
@@ -28,13 +28,8 @@ for ir = 1:rCount
     % recursive r vector to be multiplied with e
     rv = mod(e*r0,q);
     
-    % group mask idx
-    grpIdx = false(1,rCount);
-    grpIdx(ir) = 1;
-    
-    % iterate over group 
-    while ~isequal(rv,r0) 
-        % normalize rv brute force to get rIdx
+    %TEST NORM
+    % normalize rv brute force to get rIdx
         for factor = 1:(q-1)
             % test factor * rv
             normRv = mod(factor*rv,q);
@@ -43,21 +38,45 @@ for ir = 1:rCount
             normRvIdx = sumdiffRvR == 0;
             % break if Idx found
             if(sum(normRvIdx)>0)
+                rv = normRv;
                 break
             end
         end
+    %TEST NORM
+    
+    % group mask idx
+    grpIdx = false(1,rCount);
+    grpIdx(ir) = 1;
+    
+    % iterate over group 
+    while ~isequal(rv,r0) 
         % add rIdx of normed Rv to groupIdx
         grpIdx = or(grpIdx,normRvIdx);
         
         % break if all vectors are in elements of the group
-        if sum(grpIdx) == rCount
+        if (sum(grpIdx) == rCount || sum(grpIdx) > (0.15*rCount))
             % reset grpindex so that there is only at position ir true
-            grpIdx = false(1,rCount);
+            grpIdx = false(1,rCount); 
             grpIdx(ir) = 1;
             break
         end
         % set rv for next iteration
         rv = mod(e*rv,q);
+    %TEST NORM
+    % normalize rv brute force to get rIdx
+        for factor = 1:(q-1)
+            % test factor * rv
+            normRv = mod(factor*rv,q);
+            replicatedNormRv = repmat(normRv,[1,rCount]);
+            sumdiffRvR = sum(abs(replicatedNormRv-r));
+            normRvIdx = sumdiffRvR == 0;
+            % break if Idx found
+            if(sum(normRvIdx)>0)
+                rv = normRv;
+                break
+            end
+        end
+    %TEST NORM
     end
     
     % Add sum of Indexed Colums of A to reducedA Matrix 
@@ -75,4 +94,3 @@ end
 % reduce rows
 redA = unique(reducedA,'rows');
 end
-

@@ -4,10 +4,10 @@ k = size(r,1);
 rCount = size(r,2);
 % florians code
 e = randi([0, q-1], [k,k]);
-de = det(e);
+de = mod(det(e),q);
 while(de == 0)
     e = randi([0, q-1], [k,k]);
-    de = det(e);
+    de = mod(det(e),q);
 end
 %e = [1,0,1;0,1,0;0,0,1];
 %e = [2,1,1;0,0,2;0,2,1];

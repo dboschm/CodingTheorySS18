@@ -2,7 +2,6 @@ function [redA,c,e,groupsIdxs] = reduceA2(A,r)
 q = max(max(r))+1
 k = size(r,1);
 rCount = size(r,2);
-% florians code
 e = randi([0, q-1], [k,k]);
 de = mod(det(e),q);
 while(de == 0)
@@ -28,7 +27,6 @@ for ir = 1:rCount
     % recursive r vector to be multiplied with e
     rv = mod(e*r0,q);
     
-    %TEST NORM
     % normalize rv brute force to get rIdx
         for factor = 1:(q-1)
             % test factor * rv
@@ -42,8 +40,6 @@ for ir = 1:rCount
                 break
             end
         end
-    %TEST NORM
-    
     % group mask idx
     grpIdx = false(1,rCount);
     grpIdx(ir) = 1;
@@ -62,7 +58,6 @@ for ir = 1:rCount
         end
         % set rv for next iteration
         rv = mod(e*rv,q);
-    %TEST NORM
     % normalize rv brute force to get rIdx
         for factor = 1:(q-1)
             % test factor * rv
@@ -76,7 +71,6 @@ for ir = 1:rCount
                 break
             end
         end
-    %TEST NORM
     end
     
     % Add sum of Indexed Colums of A to reducedA Matrix 
